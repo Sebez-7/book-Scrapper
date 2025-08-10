@@ -1,5 +1,6 @@
 import scrapy
-import pandas as pd
+import pandas as pd # to save file in exel format
+
 
 class BooksSpider(scrapy.Spider):
     name = "books"
@@ -13,7 +14,8 @@ class BooksSpider(scrapy.Spider):
             price = book.xpath(".//p[@class='price_color']/text()").get()
             availability = book.xpath(".//p[contains(@class,'availability')]/text()").re_first(r'\S.*\S')
             rating_class = book.xpath("./p[contains(@class, 'star-rating')]/@class").get()
-            # Extract the rating word (e.g., 'Three' from 'star-rating Three')
+
+            # Extract the rating word ( 'Three' from 'star-rating Three')
             rating = rating_class.replace('star-rating', '').strip() if rating_class else None
             detail_link = book.xpath("./h3/a/@href").get()
             detail_link = response.urljoin(detail_link)
